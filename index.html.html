@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Secret Love Letters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      color: #4a0033;
+      text-align: center;
+      padding: 50px 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 56px;
+      color: #d81e5b;
+      margin-bottom: 10px;
+      letter-spacing: 3px;
+      text-shadow: 0 0 10px #ff6f91;
+      position: relative;
+    }
+
+    /* Animated floating hearts around the title */
+    h1::before, h1::after {
+      content: '♥';
+      position: absolute;
+      color: #ff4d6d;
+      font-size: 36px;
+      animation: floatHeart 4s infinite ease-in-out;
+      opacity: 0.8;
+    }
+
+    h1::before {
+      left: -50px;
+      top: 10px;
+      animation-delay: 0s;
+    }
+
+    h1::after {
+      right: -50px;
+      top: 10px;
+      animation-delay: 2s;
+    }
+
+    @keyframes floatHeart {
+      0%, 100% { transform: translateY(0); opacity: 0.8; }
+      50% { transform: translateY(-15px); opacity: 1; }
+    }
+
+    textarea, input {
+      width: 320px;
+      max-width: 90vw;
+      padding: 14px 18px;
+      border: 2px solid #ff9bb3;
+      border-radius: 15px;
+      margin-top: 12px;
+      font-size: 18px;
+      background-color: #fff0f5;
+      box-shadow: 0 2px 8px rgba(255, 105, 180, 0.3);
+      transition: border-color 0.3s ease;
+    }
+
+    textarea:focus, input:focus {
+      outline: none;
+      border-color: #ff4d6d;
+      box-shadow: 0 0 12px #ff4d6d;
+    }
+
+    button {
+      background-color: #ff4d6d;
+      border: none;
+      color: white;
+      padding: 12px 28px;
+      margin-top: 24px;
+      border-radius: 30px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 5px 12px rgba(255, 77, 109, 0.6);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      letter-spacing: 1.1px;
+    }
+
+    button:hover {
+      background-color: #e0365b;
+      transform: scale(1.05);
+    }
+
+    #noteDisplay {
+      margin-top: 40px;
+      font-weight: 600;
+      font-size: 20px;
+      white-space: pre-wrap;
+      color: #6d1b5b;
+      background: #ffe4ec;
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 0 20px #ff6f91;
+      position: relative;
+    }
+
+    /* Decorative hearts inside the note display */
+    #noteDisplay::before, #noteDisplay::after {
+      content: '♥';
+      position: absolute;
+      font-size: 26px;
+      color: #ff4d6d;
+      opacity: 0.2;
+      top: 10px;
+    }
+    #noteDisplay::before {
+      left: 15px;
+      transform: rotate(-15deg);
+    }
+    #noteDisplay::after {
+      right: 15px;
+      transform: rotate(15deg);
+    }
+
+    .section {
+      margin-top: 50px;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-family: 'Pacifico', cursive;
+      color: #d81e5b;
+      font-size: 16px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <h1>Secret Love Letters</h1>
+
+  <form id="noteForm" autocomplete="off">
+    <textarea id="note" placeholder="Write your love letter here..." rows="6"></textarea><br />
+    <input type="password" id="password" placeholder="Set a secret password" /><br />
+    <button type="submit">Save My Love Letter</button>
+  </form>
+
+  <div class="section">
+    <h3>Read Your Secret Letter</h3>
+    <input type="password" id="readPassword" placeholder="Enter your secret password" />
+    <button onclick="readNote()">Read Letter</button>
+    <p id="noteDisplay"></p>
+  </div>
+
+  <script>
+    document.getElementById("noteForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const note = document.getElementById("note").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (note && password) {
+        localStorage.setItem(password, note);
+        alert("Your love letter is safely saved! Share your secret password with your special someone.");
+        document.getElementById("note").value = "";
+        document.getElementById("password").value = "";
+      } else {
+        alert("Please write your love letter and set a secret password.");
+      }
+    });
+
+    function readNote() {
+      const password = document.getElementById("readPassword").value.trim();
+      const note = localStorage.getItem(password);
+
+      if (note) {
+        document.getElementById("noteDisplay").innerText = Your secret letter:\n\n${note};
+      } else {
+        document.getElementById("noteDisplay").innerText = "Oops! No letter found with this password.";
+      }
+    }
+  </script>
+
+  <footer>
+    Made with ♥ by Rabia
+  </footer>
+</body>
+</html>
